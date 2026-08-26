@@ -1,0 +1,9 @@
+conversation_id,turn_id,speaker,text
+chat_001,1,user,I cannot find the setting I need.
+chat_001,2,assistant,I can help you find it.
+chat_001,3,user,I already tried that twice and it still does not work.
+chat_001,4,assistant,Let us try a different path.
+chat_001,5,user,That fixed it thank you so much!
+chat_002,1,user,I am nervous that I entered the wrong information.
+chat_002,2,assistant,We can review it together.
+chat_002,3,user,Okay I feel better now.
