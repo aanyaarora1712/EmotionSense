@@ -141,7 +141,9 @@ class GoEmotionsPredictor:
                 batch, padding=True, truncation=True, max_length=128, return_tensors="pt"
             ).to(self.device)
             with torch.no_grad():
-                fine_probabilities = torch.softmax(self.model(**encoded).logits, dim=-1)
+                # This public checkpoint is multi-label, so each fine-grained
+                # emotion receives an independent sigmoid probability.
+                fine_probabilities = torch.sigmoid(self.model(**encoded).logits)
 
             for fine_probs in fine_probabilities:
                 coarse = {name: 0.0 for name in CLASS_NAMES}
