@@ -13,7 +13,7 @@ from emotion_utils import CLASS_NAMES, EmotionPredictor, GoEmotionsPredictor
 
 EXAMPLES = {
     "Support escalation": [
-        "I cannot find the setting I need.",
+        "Where can I find the account settings?",
         "I already tried that twice and it still does not work.",
         "This is ridiculous. Why is it still broken?",
     ],
