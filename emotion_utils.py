@@ -115,3 +115,49 @@ class EmotionPredictor:
                     }
                 )
         return results
+
+
+class GoEmotionsPredictor:
+    """Ready-to-demo predictor using a public RoBERTa GoEmotions checkpoint.
+
+    The checkpoint predicts the original 28 GoEmotions labels. Probabilities are
+    summed into this project's eight presentation-friendly classes, so the UI can
+    run before a custom checkpoint has been trained.
+    """
+
+    def __init__(self, model_name: str = "SamLowe/roberta-base-go_emotions"):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_name).to(
+            self.device
+        )
+        self.model.eval()
+
+    def predict(self, texts: list[str], batch_size: int = 16) -> list[dict]:
+        results = []
+        for start in range(0, len(texts), batch_size):
+            batch = texts[start : start + batch_size]
+            encoded = self.tokenizer(
+                batch, padding=True, truncation=True, max_length=128, return_tensors="pt"
+            ).to(self.device)
+            with torch.no_grad():
+                fine_probabilities = torch.softmax(self.model(**encoded).logits, dim=-1)
+
+            for fine_probs in fine_probabilities:
+                coarse = {name: 0.0 for name in CLASS_NAMES}
+                for index, value in enumerate(fine_probs):
+                    fine_name = self.model.config.id2label[index]
+                    coarse[_fine_to_coarse(fine_name)] += value.item()
+                total = sum(coarse.values()) or 1.0
+                coarse = {name: value / total for name, value in coarse.items()}
+                emotion = max(coarse, key=coarse.get)
+                results.append(
+                    {
+                        "emotion": emotion,
+                        "confidence": round(coarse[emotion], 4),
+                        "probabilities": {
+                            name: round(coarse[name], 4) for name in CLASS_NAMES
+                        },
+                    }
+                )
+        return results
