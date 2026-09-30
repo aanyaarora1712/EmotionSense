@@ -68,14 +68,15 @@ with st.sidebar:
     st.header("Try a scenario")
     example_name = st.selectbox("Example", list(EXAMPLES))
     if st.button("Load example", use_container_width=True):
-        st.session_state["conversation"] = "\n".join(EXAMPLES[example_name])
+        st.session_state["conversation_input"] = "\n".join(EXAMPLES[example_name])
     st.divider()
     st.caption("Each line is treated as one user turn. Voicebot audio should be transcribed first.")
 
 default_text = "\n".join(EXAMPLES["Support escalation"])
+if "conversation_input" not in st.session_state:
+    st.session_state["conversation_input"] = default_text
 conversation = st.text_area(
     "Paste a conversation — one user message per line",
-    value=st.session_state.get("conversation", default_text),
     height=180,
     key="conversation_input",
 )
