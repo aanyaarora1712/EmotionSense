@@ -8,6 +8,21 @@ emotion classes in chatbot or voicebot transcripts:
 It also analyzes conversation-level behavioral patterns such as negative-emotion
 escalation, emotional recovery, repeated frustration, and dominant emotion.
 
+## Run the presentation UI
+
+The UI works immediately with a public RoBERTa model fine-tuned on GoEmotions.
+If `models/emotionsense/config.json` exists, it automatically uses your custom
+eight-class checkpoint instead.
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+Open the local URL printed in the terminal, load an example or paste one user
+message per line, and select **Analyze conversation**. The first run downloads
+the pretrained model and can take a few minutes; later runs use the cache.
+
 ## Setup
 
 ```bash
