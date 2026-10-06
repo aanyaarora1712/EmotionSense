@@ -129,7 +129,7 @@ if st.button("Analyze conversation", type="primary", use_container_width=True):
     st.caption(f"Model: {model_source}")
     a, b, c, d = st.columns(4)
     a.metric("Dominant emotion", summary["dominant_emotion"].replace("_", " ").title())
-    b.metric("Mean confidence", f'{summary["mean_confidence"]:.0%}')
+    b.metric("Mean top score", f'{summary["mean_confidence"]:.0%}')
     c.metric("Negative escalation", "Detected" if summary["negative_escalation"] else "Not detected")
     d.metric("Emotional recovery", "Detected" if summary["emotional_recovery"] else "Not detected")
 
@@ -147,6 +147,9 @@ if st.button("Analyze conversation", type="primary", use_container_width=True):
         st.bar_chart(counts, horizontal=True, color="#8f6f58")
 
     with st.expander("See class probabilities"):
+        st.caption(
+            "These are relative model scores, not a measured probability that the label is correct."
+        )
         probability_rows = []
         for index, prediction in enumerate(predictions, start=1):
             probability_rows.append({"Turn": index, **prediction["probabilities"]})
