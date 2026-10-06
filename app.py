@@ -35,9 +35,26 @@ st.markdown(
     """
     <style>
     .block-container {max-width: 1180px; padding-top: 2rem;}
-    [data-testid="stMetric"] {background:#f6f3ee; border:1px solid #e7e0d7;
-      padding:14px; border-radius:14px;}
-    .eyebrow {letter-spacing:.12em; text-transform:uppercase; color:#7d7166;
+    [data-testid="stMetric"] {
+      background:rgba(143,111,88,.14);
+      border:1px solid rgba(143,111,88,.38);
+      padding:14px;
+      border-radius:14px;
+    }
+    [data-testid="stMetricLabel"],
+    [data-testid="stMetricValue"] {
+      color:var(--text-color) !important;
+    }
+    .stButton > button[kind="primary"] {
+      background:#8f6f58;
+      border-color:#8f6f58;
+      color:#fff;
+    }
+    .stButton > button[kind="primary"]:hover {
+      background:#755845;
+      border-color:#755845;
+    }
+    .eyebrow {letter-spacing:.12em; text-transform:uppercase; color:#a98c77;
       font-size:.78rem; font-weight:700;}
     </style>
     """,
